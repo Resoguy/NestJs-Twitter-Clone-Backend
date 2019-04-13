@@ -16,7 +16,7 @@ export class UserService {
   ) {}
 
   async showUsers(): Promise<UserEntity[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({ relations: ['twits'] });
   }
 
   async login(loginData: UserDTO): Promise<string> {

@@ -4,9 +4,11 @@ import {
   Column,
   BeforeInsert,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { TwitEntity } from 'src/twit/twit.entity';
 
 @Entity()
 export class UserEntity {
@@ -24,6 +26,9 @@ export class UserEntity {
 
   @Column({ type: 'text' })
   password: string;
+
+  @OneToMany(type => TwitEntity, twit => twit.user, { cascade: true })
+  twits: TwitEntity[];
 
   @BeforeInsert()
   async hashPassword() {

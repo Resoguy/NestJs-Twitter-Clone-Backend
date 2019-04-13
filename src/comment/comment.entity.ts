@@ -1,16 +1,15 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
   Column,
+  CreateDateColumn,
   ManyToOne,
-  OneToMany,
 } from 'typeorm';
 import { UserEntity } from 'src/user/user.entity';
-import { CommentEntity } from 'src/comment/comment.entity';
+import { TwitEntity } from 'src/twit/twit.entity';
 
 @Entity()
-export class TwitEntity {
+export class CommentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,11 +19,9 @@ export class TwitEntity {
   @Column({ type: 'text', nullable: false, length: 140 })
   text: string;
 
-  @ManyToOne(type => UserEntity, user => user.twits, { onDelete: 'CASCADE' })
+  @ManyToOne(type => UserEntity, user => user.comments, { onDelete: 'CASCADE' })
   user: UserEntity;
 
-  @OneToMany(type => CommentEntity, comments => comments.twit, {
-    cascade: true,
-  })
-  comments: CommentEntity[];
+  @ManyToOne(type => TwitEntity, twit => twit.comments, { onDelete: 'CASCADE' })
+  twit: TwitEntity;
 }

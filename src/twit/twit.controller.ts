@@ -14,10 +14,16 @@ import { TwitDTO } from './dto/twit.dto';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { User } from 'src/shared/decorators/user.decorator';
+import { CommentDTO } from 'src/comment/dto/comment.dto';
+import { CommentService } from 'src/comment/comment.service';
+import { CommentEntity } from 'src/comment/comment.entity';
 
 @Controller('twits')
 export class TwitController {
-  constructor(private readonly twitService: TwitService) {}
+  constructor(
+    private readonly twitService: TwitService,
+    private readonly commentService: CommentService,
+  ) {}
 
   @Get()
   async allTwits(): Promise<TwitEntity[]> {
@@ -31,6 +37,16 @@ export class TwitController {
     @Body() twitData: TwitDTO,
   ): Promise<TwitEntity> {
     return await this.twitService.create(userId, twitData);
+  }
+
+  @Post(':id/comments')
+  @UseGuards(AuthGuard)
+  async comment(
+    @User('id') userId,
+    @Param('id') twitId,
+    @Body() commentData: CommentDTO,
+  ): Promise<CommentEntity> {
+    return this.commentService.create(userId, twitId, commentData);
   }
 
   @Put(':id')

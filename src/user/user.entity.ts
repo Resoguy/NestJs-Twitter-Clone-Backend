@@ -9,6 +9,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { TwitEntity } from 'src/twit/twit.entity';
+import { CommentEntity } from 'src/comment/comment.entity';
 
 @Entity()
 export class UserEntity {
@@ -29,6 +30,9 @@ export class UserEntity {
 
   @OneToMany(type => TwitEntity, twit => twit.user, { cascade: true })
   twits: TwitEntity[];
+
+  @OneToMany(type => CommentEntity, comment => comment.user, { cascade: true })
+  comments: CommentEntity[];
 
   @BeforeInsert()
   async hashPassword() {

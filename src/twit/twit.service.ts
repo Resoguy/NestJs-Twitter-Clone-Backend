@@ -20,7 +20,7 @@ export class TwitService {
   ) {}
 
   async allTwits(): Promise<TwitEntity[]> {
-    return await this.twitRepository.find();
+    return await this.twitRepository.find({ relations: ['comments'] });
   }
 
   async create(userId, twitData: TwitDTO): Promise<TwitEntity> {

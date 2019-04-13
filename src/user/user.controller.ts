@@ -8,8 +8,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('users')
-  async showUsers(): Promise<UserEntity[]> {
-    return await this.userService.showUsers();
+  async allUsers(): Promise<UserEntity[]> {
+    return await this.userService.allUsers();
   }
 
   @Post('login')
